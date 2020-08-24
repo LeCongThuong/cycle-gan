@@ -39,6 +39,8 @@ torch.manual_seed(SEED)
 if torch.cuda.is_available():
     torch.cuda.manual_seed(SEED)
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 
 def print_models(G, D):
     """Prints model information for the generators and discriminators.
@@ -166,7 +168,7 @@ def training_loop(train_dataloader, opts):
 
             # 2. Sample noise
             # noise = ...
-            noise = sample_noise(opts.noise_size)
+            noise = sample_noise(opts.noise_size).to(device)
 
             # 3. Generate fake images from the noise
             # fake_images = ...
@@ -193,7 +195,7 @@ def training_loop(train_dataloader, opts):
             # FILL THIS IN
             # 1. Sample noise
             # noise = ...
-            noise = sample_noise(opts.noise_size)
+            noise = sample_noise(opts.noise_size).to(device)
 
             # 2. Generate fake images from the noise
             # fake_images = ...

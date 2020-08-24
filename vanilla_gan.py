@@ -149,6 +149,8 @@ def training_loop(train_dataloader, opts):
     for epoch in range(opts.num_epochs):
 
         for batch in train_dataloader:
+            if len(batch) != opts.batch_size:
+                continue
 
             real_images, labels = batch
             real_images, labels = utils.to_var(real_images), utils.to_var(labels).long().squeeze()
@@ -203,7 +205,8 @@ def training_loop(train_dataloader, opts):
 
             # 3. Compute the generator loss
             # G_loss = ...
-            G_loss = torch.mean(torch.pow(D(fake_images) - torch.ones(m).to(device), exponent=2))
+            n = len(fake_images)
+            G_loss = torch.mean(torch.pow(D(fake_images) - torch.ones(n).to(device), exponent=2))
 
 
             G_loss.backward()

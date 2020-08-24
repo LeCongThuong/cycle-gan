@@ -164,7 +164,7 @@ def training_loop(train_dataloader, opts):
             # D_real_loss = ...
             m = len(real_images)
             real_logits = D(real_images)
-            D_real_loss = torch.mean(torch.pow(real_logits - torch.ones(m), exponent=2))
+            D_real_loss = torch.mean(torch.pow(real_logits - torch.ones(m).to(device), exponent=2))
 
             # 2. Sample noise
             # noise = ...
@@ -203,7 +203,7 @@ def training_loop(train_dataloader, opts):
 
             # 3. Compute the generator loss
             # G_loss = ...
-            G_loss = torch.mean(torch.pow(D(fake_images) - torch.ones(m), exponent=2))
+            G_loss = torch.mean(torch.pow(D(fake_images) - torch.ones(m).to(device), exponent=2))
 
 
             G_loss.backward()

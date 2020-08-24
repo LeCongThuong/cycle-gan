@@ -149,8 +149,6 @@ def training_loop(train_dataloader, opts):
     for epoch in range(opts.num_epochs):
 
         for batch in train_dataloader:
-            if len(batch) != opts.batch_size:
-                continue
 
             real_images, labels = batch
             real_images, labels = utils.to_var(real_images), utils.to_var(labels).long().squeeze()

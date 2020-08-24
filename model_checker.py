@@ -85,6 +85,7 @@ def check_dc_discriminator():
     # for key, value in state.items():
     #     print(key)
     D = DCDiscriminator(conv_dim=32)
+    # summary(D, input_size=(3, 32, 32))
     D.load_state_dict(state['state_dict'])
     images = state['input']
     dc_discriminator_expected = state['output']
@@ -95,6 +96,8 @@ def check_dc_discriminator():
     if np.allclose(output_np, dc_discriminator_expected):
         print('DCDiscriminator output: EQUAL')
     else:
+        print("output_np: ", output_np.shape)
+        print("dc_discriminator_expected: ", dc_discriminator_expected.shape)
         print('DCDiscriminator output: NOT EQUAL')
 
     num_params = count_parameters(D)

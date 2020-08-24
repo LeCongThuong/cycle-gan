@@ -160,18 +160,26 @@ def training_loop(train_dataloader, opts):
             # FILL THIS IN
             # 1. Compute the discriminator loss on real images
             # D_real_loss = ...
+            m = len(real_images)
+            real_logits = D(real_images)
+            D_real_loss = torch.mean(torch.pow(real_logits - torch.ones(m), exponent=2))
 
             # 2. Sample noise
             # noise = ...
+            noise = sample_noise(opts.noise_size)
 
             # 3. Generate fake images from the noise
             # fake_images = ...
+            fake_images = G(noise)
 
             # 4. Compute the discriminator loss on the fake images
             # D_fake_loss = ...
+            fake_logit = D(fake_images)
+            D_fake_loss = torch.mean(torch.pow(fake_logit, exponent=2))
 
             # 5. Compute the total discriminator loss
             # D_total_loss = ...
+            D_total_loss = 0.5 * D_fake_loss + 0.5 * D_real_loss
 
             D_total_loss.backward()
             d_optimizer.step()
@@ -185,12 +193,16 @@ def training_loop(train_dataloader, opts):
             # FILL THIS IN
             # 1. Sample noise
             # noise = ...
+            noise = sample_noise(opts.noise_size)
 
             # 2. Generate fake images from the noise
             # fake_images = ...
+            fake_images = G(noise)
 
             # 3. Compute the generator loss
             # G_loss = ...
+            G_loss = torch.mean(torch.pow(D(fake_images) - torch.ones(m), exponent=2))
+
 
             G_loss.backward()
             g_optimizer.step()
@@ -199,7 +211,7 @@ def training_loop(train_dataloader, opts):
             # Print the log info
             if iteration % opts.log_step == 0:
                 print('Iteration [{:4d}/{:4d}] | D_real_loss: {:6.4f} | D_fake_loss: {:6.4f} | G_loss: {:6.4f}'.format(
-                       iteration, total_train_iters, D_real_loss.data[0], D_fake_loss.data[0], G_loss.data[0]))
+                       iteration, total_train_iters, D_real_loss.data, D_fake_loss.data, G_loss.data))
 
             # Save the generated samples
             if iteration % opts.sample_every == 0:

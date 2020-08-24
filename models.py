@@ -54,9 +54,9 @@ class DCGenerator(nn.Module):
         # self.deconv3 = deconv(...)
         # self.deconv4 = deconv(...)
         self.deconv1 = deconv(in_channels=100, out_channels=128, kernel_size=4, stride=2, padding=0, batch_norm=True)
-        self.deconv2 = deconv(in_channels=128, out_channels=64, kernel_size=4, stride=2, padding=0, batch_norm=True)
-        self.deconv3 = deconv(in_channels=64, out_channels=32, kernel_size=4, stride=2, padding=0, batch_norm=True)
-        self.deconv4 = deconv(in_channels=32, out_channels=3, kernel_size=4, stride=2, padding=0, batch_norm=True)
+        self.deconv2 = deconv(in_channels=128, out_channels=64, kernel_size=4, stride=2, padding=1, batch_norm=True)
+        self.deconv3 = deconv(in_channels=64, out_channels=32, kernel_size=4, stride=2, padding=1, batch_norm=True)
+        self.deconv4 = deconv(in_channels=32, out_channels=3, kernel_size=4, stride=2, padding=1, batch_norm=False)
 
 
     def forward(self, z):
@@ -151,7 +151,7 @@ class DCDiscriminator(nn.Module):
         self.conv1 = conv(in_channels=3, out_channels=32, kernel_size=4, stride=2, padding=2, batch_norm=True, init_zero_weights=False)
         self.conv2 = conv(in_channels=32, out_channels=64, kernel_size=4, stride=2, padding=2, batch_norm=True, init_zero_weights=False)
         self.conv3 = conv(in_channels=64, out_channels=128, kernel_size=4, stride=2, padding=2, batch_norm=True, init_zero_weights=False)
-        self.conv4 = conv(in_channels=128, out_channels=1, kernel_size=4, stride=2, padding=2, batch_norm=True, init_zero_weights=False)
+        self.conv4 = conv(in_channels=128, out_channels=1, kernel_size=4, stride=2, padding=2, batch_norm=False, init_zero_weights=False)
 
 
     def forward(self, x):

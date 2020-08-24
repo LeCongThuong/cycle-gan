@@ -24,7 +24,7 @@ import numpy as np
 
 # Local imports
 from models import DCGenerator, DCDiscriminator, CycleGenerator
-
+# from torchsummary import summary
 
 def count_parameters(model):
     """Finds the total number of trainable parameters in a model.
@@ -51,8 +51,12 @@ def check_dc_generator():
     """Checks the output and number of parameters of the DCGenerator class.
     """
     state = torch.load('/home/love_you/Documents/Study/deep_learning/a4-code/a4-code-v2-updated/checker_files/dc_generator.pt')
-
+    # print(state['state_dict'].keys())
     G = DCGenerator(noise_size=100, conv_dim=32)
+    # for name, param in G.named_parameters():
+    #     print(name)
+
+    # summary(G, input_size=(100, 1, 1))
     G.load_state_dict(state['state_dict'])
     noise = state['input']
     dc_generator_expected = state['output']
@@ -81,7 +85,6 @@ def check_dc_discriminator():
     # for key, value in state.items():
     #     print(key)
     D = DCDiscriminator(conv_dim=32)
-    print(D)
     D.load_state_dict(state['state_dict'])
     images = state['input']
     dc_discriminator_expected = state['output']
@@ -135,7 +138,7 @@ if __name__ == '__main__':
         check_dc_generator()
     except Exception as e:
         print(e)
-        print('Crashed while checking DCGenerator. Maybe not implemented yet?')
+        #print('Crashed while checking DCGenerator. Maybe not implemented yet?')
 
     try:
         check_dc_discriminator()
